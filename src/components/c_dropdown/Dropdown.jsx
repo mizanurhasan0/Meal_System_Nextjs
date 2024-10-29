@@ -3,7 +3,7 @@ import Image from 'next/image';
 import React, { useState } from 'react'
 import { useRef } from 'react'
 
-export default function Dropdown() {
+export default function Dropdown({ placeholder = "Select ..." }) {
     const refMenu = useRef();
     const arrowRef = useRef();
 
@@ -21,9 +21,9 @@ export default function Dropdown() {
     }
     return (
         <div className="">
-            <div className="px-3 rounded-md text-cgray">
+            <div className="rounded-md text-cgray">
                 <div className="h-9 flex border focus-within:border-cgreen rounded-lg overflow-hidden">
-                    <input className="flex-1 px-2 h-full w-full outline-0 leading-6 capitalize" type="text" name="search" placeholder="Select category.."
+                    <input className="flex-1 px-2 h-full w-full outline-0 leading-6 capitalize cursor-pointer" type="text" name="search" placeholder={placeholder}
                         onClick={onOpen}
                         autoComplete='off'
                         value={selectOpt}

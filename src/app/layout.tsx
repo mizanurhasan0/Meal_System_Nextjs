@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { dbConnect } from "@/service/mongo"
 import "./globals.css";
+import Link from "next/link";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -17,7 +18,31 @@ export default async function RootLayout({
   await dbConnect();
   return (
     <html lang="en" >
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <main className="flex min-h-screen bg-gray-900">
+          <div className="fixed xl:relative
+       inset-y-0 flex-wrap items-center justify-between block w-full p-0 my-4 overflow-y-auto antialiased transition-transform duration-200  bg-white border-0 shadow-xl  max-w-64 ease-nav-brand z-990 xl:ml-6 rounded-2xl xl:left-0 -translate-x-full xl:translate-x-0">
+            <div>
+              <h1 className="text-2xl font-semibold">Dashboard</h1>
+              <div>
+                <li>Dashboard</li>
+                <li>
+                  <Link href={"/members"}>Members</Link>
+                </li>
+                <li>
+                  <Link href={"/users"}>Users</Link>
+                </li>
+              </div>
+            </div>
+          </div>
+          <div className="relative h-full min-h-screen transition-all duration-200 ease-in-out xl:ml-68 rounded-xl w-full flex flex-col">
+            <nav className="relative flex flex-wrap items-center justify-between px-0 py-2 mx-6 my-6 transition-all ease-in shadow-none duration-250 rounded-2xl lg:flex-nowrap lg:justify-start bg-white">This is header</nav>
+            <div className="flex-shrink flex-1 bg-white h-full mx-6 mb-6 rounded-xl">
+              {children}
+            </div>
+          </div>
+        </main>
+      </body>
     </html>
   );
 }

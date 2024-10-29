@@ -1,0 +1,64 @@
+.container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+    position: relative;
+    top: 0;
+    left: 0;
+    height: 0.989em;
+    width: 0.989em;
+    background-color: white;
+    transition: all 0.3s;
+    border-radius: 4px;
+    border: 1.5px solid #148f77;
+}
+
+/* When the checkbox is checked, add a green background */
+.container input:checked~.checkmark {
+    background-color: #148f77;
+    animation: pop 0.5s;
+    animation-direction: alternate;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the checkmark when checked */
+.container input:checked~.checkmark:after {
+    display: block;
+}
+
+/* Style the checkmark/indicator */
+.container .checkmark:after {
+    left: 0.25em;
+    top: 0.10em;
+    width: 0.4em;
+    height: 0.6rem;
+    border: solid white;
+    border-width: 0 0.15em 0.15em 0;
+    transform: rotate(45deg);
+}
+
+@keyframes pop {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(0.9);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
