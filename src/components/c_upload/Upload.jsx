@@ -3,7 +3,8 @@ import React, { useState } from 'react'
 import C_Image from '../c_image/C_Image'
 
 export default function Upload({ ...props }) {
-    const [preview, setPreview] = useState();
+    const [preview, setPreview] = useState(null);
+
 
     const onPreview = (e) => {
         e.preventDefault();
@@ -27,11 +28,14 @@ export default function Upload({ ...props }) {
                     </div>
                 </div>
             </div>
-            <div>
-                <div className="border w-14 h-14 bg-cgray bg-opacity-20 overflow-hidden flex items-center justify-center">
-                    <C_Image src={preview ? preview : "/images/default.jpg"} alt="preview" />
+            {preview !== null ? (
+                <div>
+                    <div className="border w-14 h-14 bg-cgray bg-opacity-20 overflow-hidden flex items-center justify-center">
+                        <C_Image src={preview ?? "/images/default.jpg"} alt="preview" />
+                    </div>
                 </div>
-            </div>
+            ) : ''}
+
         </div>
     )
 }
