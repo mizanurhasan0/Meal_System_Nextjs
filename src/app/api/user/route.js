@@ -17,7 +17,7 @@ const POST = async (req) => {
     try {
         const fd = await req.formData();
         const data = Object.fromEntries(fd);
-        console.log(data);
+
         if (data.file && data.file.size != 0) {
             const flName = await UploadFile(data.file);
             if (!flName) return Response.json({ error: "Image error!" })

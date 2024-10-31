@@ -1,11 +1,11 @@
 'use client';
 import React, { useRef } from 'react'
-import UsrTitle from '../../../components/title/UsrTitle'
+import UsrTitle from '../components/UsrTitle'
 import Upload from "@/components/c_upload/Upload";
 import Lbl_Input from "@/components/c_input/Lbl_Input";
 import Button from '@/components/c_button/Button';
 
-export default function UsrFrm() {
+export default function MealsFrm() {
   const frmRef = useRef();
 
   const onSubmit = (e) => {

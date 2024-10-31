@@ -5,7 +5,7 @@ import React from 'react'
 export default async function Members() {
     const d = await fetch('http://localhost:3000/api/user');
     let { data } = await d.json();
-
+    console.log(data);
     return (
         <div>
             <table className="table-auto">
@@ -18,7 +18,7 @@ export default async function Members() {
                     </tr>
                 </thead>
                 <tbody>
-                    {data?.map((d) => (
+                    {data && data.docs?.map((d) => (
                         <tr key={d.id}>
                             <td>{d.email}</td>
                             <td>{d.pass}</td>

@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import { dbConnect } from "@/service/mongo"
 import "./globals.css";
 import Link from "next/link";
+import Headers from "./headers/Header";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -27,7 +29,7 @@ export default async function RootLayout({
               <div>
                 <li>Dashboard</li>
                 <li>
-                  <Link href={"/members"}>Members</Link>
+                  <Link href={"/meals"}>Meals</Link>
                 </li>
                 <li>
                   <Link href={"/users"}>Users</Link>
@@ -36,7 +38,7 @@ export default async function RootLayout({
             </div>
           </div>
           <div className="relative h-full min-h-screen transition-all duration-200 ease-in-out xl:ml-68 rounded-xl w-full flex flex-col">
-            <nav className="relative flex flex-wrap items-center justify-between px-0 py-2 mx-6 my-6 transition-all ease-in shadow-none duration-250 rounded-2xl lg:flex-nowrap lg:justify-start bg-white">This is header</nav>
+            <Headers />
             <div className="flex-shrink flex-1 bg-white h-full mx-6 mb-6 rounded-xl">
               {children}
             </div>
