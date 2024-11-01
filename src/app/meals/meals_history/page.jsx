@@ -1,7 +1,8 @@
 'use client';
-import React from 'react';
+import React from 'react'
 import Lbl_Input from "@/components/c_input/Lbl_Input";
-import Button from '@/components/c_button/Button'
+import Button from '@/components/c_button/Button';
+import UserList from "../components/UserList";
 
 export default function page() {
 
@@ -19,9 +20,8 @@ export default function page() {
             <form onSubmit={onSubmit}>
                 <div className="flex space-x-4">
                     <div className="space-y-2 xl:w-96">
-                        <Lbl_Input lbl="Title" name="name" placeholder="Title ..." />
-                        <Lbl_Input lbl="Start Date" name="start" placeholder="Type starting date" type="date" />
-                        <Lbl_Input lbl="End Date" name="end" placeholder="Type end date" type="date" />
+                        <Lbl_Input lbl="Data" name="date" placeholder="Today Date" type="date" />
+                        <UserList />
                         <div className="flex items-center space-x-2">
                             <Button type='submit' className="bg-cgreen text-white" Icon="save">Save</Button>
                             <Button Icon='cross' onClick={onClean}>Clear</Button>

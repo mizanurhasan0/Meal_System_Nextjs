@@ -1,4 +1,4 @@
-import userModel from "@/models/user-model";
+import userModel from "@/models/user_model";
 import UploadFile from "@/utils/UploadFile";
 
 const allowField = new Set(["name", "email", "password", "avatar"]);
