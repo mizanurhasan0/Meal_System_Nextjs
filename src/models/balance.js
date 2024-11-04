@@ -2,7 +2,7 @@ import mongoose, { Schema } from "mongoose";
 import paginate from "mongoose-paginate-v2";
 
 const schema = new Schema({
-    amount: [
+    account: [
         {
             userId: {
                 type: Schema.Types.ObjectId,

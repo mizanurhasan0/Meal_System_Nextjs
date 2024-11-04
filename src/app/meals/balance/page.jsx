@@ -17,12 +17,14 @@ export default function Balance() {
         setter(data.docs || data);
     }
 
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault();
         const fd = new FormData(e.target);
         const fmValue = Object.fromEntries(fd.entries());
-
-        console.log(Object.entries(fmValue).map(([key, value]) => ({ userId: key, amount: value })));
+        const fl = Object.entries(fmValue).map(([key, value]) => ({ userId: key.replace("usr_", ""), amount: value }));
+        const acc = fl.filter((d) => d.amount !== "");
+        // fd.append("data", { account: acc, mealId: id });
+        await fetch(`/api/balance?id=${id}`, { method: "POST", body: JSON.stringify({ account: acc, mealId: id }) }).then((res) => res.json()).then((d) => console.log(d))
 
     }
     useEffect(() => {

@@ -18,16 +18,10 @@ const GET = async (req) => {
 const POST = async (req) => {
     try {
         const param = req.nextUrl.searchParams.get("id");
-        const fd = await req.formData();
-        const data = Object.fromEntries(fd);
-        const obj = Object.entries(data)
-            .filter(([key]) => key.startsWith('usr_'))
-            .map(([key, count]) => ({
-                userId: key.replace('usr_', ''),
-                count
-            }));
+        const data = await req.json();
+        // console.log();
         // if (!valid) return Response.json({ error: "Field error" });
-        const mdl = await balanceModal.create({ date: data.date, record: obj, mealId: param });
+        const mdl = await balanceModal.create(data);
         return Response.json({ data: mdl });
     } catch (error) {
         return Response.json({ message: error + "Something went wrong!!" })
