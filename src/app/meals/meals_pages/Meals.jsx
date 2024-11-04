@@ -1,12 +1,12 @@
 import UsrTitle from '@/components/title/UsrTitle';
 import React from 'react';
 import MealAction from '../components/MealAction';
+import MealTbl from '../components/MealTbl';
 
 export default async function Users() {
     try {
-        const d = await fetch("http://localhost:3000/api/user");
+        const d = await fetch("http://localhost:3000/api/meals");
         const { data } = await d.json();
-        // console.log(data);
         return (
             <div className="space-y-2">
                 <UsrTitle title="Meals Management" />
@@ -20,7 +20,7 @@ export default async function Users() {
                     </div>
                 </div>
                 <div className="py-5 px-2">
-                    {/* <UsrTbl data={data} /> */}
+                    <MealTbl data={data} />
                 </div>
             </div>
         )

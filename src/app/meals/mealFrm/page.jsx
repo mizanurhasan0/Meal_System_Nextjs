@@ -8,7 +8,7 @@ export default function page() {
     const onSubmit = async (e) => {
         e.preventDefault();
         const fd = new FormData(e.target);
-        fetch("/api/meals", { method: "POST", body: fd }).then((res) => res.json()).then(data => {
+        fetch("/api/meals", { method: "POST", body: fd }).then((res) => res.json()).then((data) => {
             console.log(data);
             e.target.reset();
         }).catch((e) => console.log(e));

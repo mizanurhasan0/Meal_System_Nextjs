@@ -1,14 +1,12 @@
-import mealHistory from "@/models/meals_history";
-import mealsModel from "@/models/meals";
-import mongoose from "mongoose";
+import balanceModal from "@/models/balance";
 
 // const allowField = new Set(["name", "email", "password", "avatar"]);
 
 const GET = async (req) => {
     try {
         const param = req.nextUrl.searchParams.get("id");
-        const history = await mealHistory.find({ mealId: param }).populate({
-            path: 'record.userId',
+        const history = await balanceModal.find({ mealId: param }).populate({
+            path: 'amount.userId',
             model: 'Users'
         });
         return Response.json({ data: history })
@@ -29,7 +27,7 @@ const POST = async (req) => {
                 count
             }));
         // if (!valid) return Response.json({ error: "Field error" });
-        const mdl = await mealHistory.create({ date: data.date, record: obj, mealId: param });
+        const mdl = await balanceModal.create({ date: data.date, record: obj, mealId: param });
         return Response.json({ data: mdl });
     } catch (error) {
         return Response.json({ message: error + "Something went wrong!!" })

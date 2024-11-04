@@ -3,18 +3,22 @@ import React from 'react'
 import Lbl_Input from "@/components/c_input/Lbl_Input";
 import Button from '@/components/c_button/Button';
 import UserList from "../components/UserList";
+import { useSearchParams } from 'next/navigation';
 
 export default function page() {
+    const searchParams = useSearchParams();
+    const query = searchParams.get('id');
 
     const onSubmit = async (e) => {
         e.preventDefault();
         const fd = new FormData(e.target);
-        fetch("/api/meals", { method: "POST", body: fd }).then((res) => res.json()).then(data => {
+        fetch(`/api/meal_history?id=${query}`, { method: "POST", body: fd }).then((res) => res.json()).then(data => {
             console.log(data);
             e.target.reset();
         }).catch((e) => console.log(e));
     }
     const onClean = () => console.log("clean");
+
     return (
         <div>
             <form onSubmit={onSubmit}>

@@ -2,27 +2,20 @@ import mongoose, { Schema } from "mongoose";
 import paginate from "mongoose-paginate-v2";
 
 const schema = new Schema({
-    date: {
-        required: false,
-        type: String
-    },
+    amount: [
+        {
+            userId: {
+                type: Schema.Types.ObjectId,
+                ref: 'Users'
+            },
+            amount: Number,
+            logs: [{ amount: String, date: String }]
+        }
+    ],
     mealId: {
         type: Schema.Types.ObjectId,
         ref: 'Meals'
     },
-    record: [
-        {
-            userId: {
-                type: Schema.Types.ObjectId,
-                ref: 'Users',
-            },
-            count: {
-                type: Number,
-                default: 0
-            },
-            _id: false
-        }
-    ]
 }, {
     timestamps: true,
 });
@@ -33,6 +26,6 @@ schema.methods.toJSON = function () {
     return JSON.parse(JSON.stringify(obj).replace(/_id/g, 'id'));
 }
 schema.plugin(paginate);
-const mealHistory = mongoose.models.History ?? mongoose.model("History", schema);
+const balanceModal = mongoose.models.Balance ?? mongoose.model("Balance", schema);
 
-export default mealHistory;
+export default balanceModal;

@@ -1,27 +1,32 @@
+'use client'
 import React from 'react';
 import Table from "@/components/c_table/Table";
 import Checkbox from "@/components/c_checkbox/Checkbox";
-import C_Image from "@/components/c_image/C_Image";
+import Button from '@/components/c_button/Button';
+import { useRouter } from 'next/navigation';
 
 export default function MealTbl({ data = {} }) {
+    const router = useRouter();
     return (
         <div>
-            <Table header="usrs">
-                {data.docs.map((d) => (
-                    <tr key={d.id}>
+            <Table header="meals">
+                {data.map((d) => (
+                    <tr key={d.id} className="text-center">
                         <td><Checkbox /></td>
+                        <td>{d.name}</td>
+                        <td>{d.start}</td>
+                        <td>{d.end || '-'}</td>
+                        <td>3</td>
                         <td>
-                            <div className="flex items-center justify-center">
-                                <C_Image src={`/images/${d.avatar}`} />
+                            <div className="flex space-x-4">
+                                <Button onClick={() => router.push(`/meals/meals_history?id=${d.id}`)}>Edit</Button>
+                                <Button onClick={() => router.push(`/meals/meal_details?id=${d.id}`)}>details</Button>
+                                <Button onClick={() => router.push(`/meals/balance?id=${d.id}`)}>balance</Button>
                             </div>
                         </td>
-                        <td>{d.name}</td>
-                        <td>{d.email}</td>
-                        <td>1961</td>
                     </tr>
                 ))}
-
             </Table>
-        </div>
+        </div >
     )
 }
