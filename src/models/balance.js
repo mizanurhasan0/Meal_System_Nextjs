@@ -9,7 +9,8 @@ const schema = new Schema({
                 ref: 'Users'
             },
             amount: Number,
-            logs: [{ amount: String, date: String }]
+            logs: [{ amount: String, date: String, status: Boolean, _id: false }],
+            _id: false,
         }
     ],
     mealId: {
