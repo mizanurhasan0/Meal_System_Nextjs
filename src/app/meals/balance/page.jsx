@@ -5,7 +5,6 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Button from '@/components/c_button/Button';
 
 export default function Balance() {
-    const router = useRouter();
     const searchParams = useSearchParams();
     const id = searchParams.get('id');
 
@@ -25,7 +24,9 @@ export default function Balance() {
         const fl = Object.entries(fmValue).map(([key, value]) => ({ userId: key.replace("usr_", ""), amount: value }));
         const acc = fl.filter((d) => d.amount !== "");
         // fd.append("data", { account: acc, mealId: id });
-        await fetch('/api/balance', { method: "POST", body: JSON.stringify({ account: acc, mealId: id }) }).then((res) => res.json()).then(({ data }) => setBalance(data))
+        await fetch('/api/balance', { method: "POST", body: JSON.stringify({ account: acc, mealId: id }) }).then((res) => res.json()).then(({ data }) => {
+            setBalance(data); e.target.reset()
+        })
 
     }
     useEffect(() => {
@@ -34,7 +35,7 @@ export default function Balance() {
     }, [])
 
     return (
-        <div className="flex items-center justify-between">
+        <div className="flex justify-center space-x-5">
             <form onSubmit={onSubmit}>
                 <div>
                     {usrs.map((u) => (
