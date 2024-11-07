@@ -3,6 +3,7 @@ import { useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 // import Details from './components/Details';
 import DayCard from './components/DayCard';
+import UsrTitle from '@/components/title/UsrTitle';
 
 export default function Meal_Details() {
     const searchParams = useSearchParams();
@@ -20,19 +21,15 @@ export default function Meal_Details() {
     }, []);
 
     return (
-        <div className="grid grid-cols-4 mx-auto">
-            {data?.map((d) => (
-                <div className="m-1">
-                    <DayCard data={d} />
-                    {/* <div className="flex items-center justify-between">
-                        <p>{d.date}</p>
-                        <p>Total:{d.record.reduce((prv, cur) => prv += cur.count, 0)}</p>
+        <div>
+            <UsrTitle title="Meal details" />
+            <div className="grid grid-cols-4 mx-auto py-5">
+                {data?.map((d) => (
+                    <div className="m-1">
+                        <DayCard data={d} />
                     </div>
-                    <div>
-                        <Details data={d.record} />
-                    </div> */}
-                </div>
-            ))}
+                ))}
+            </div>
         </div>
     )
 }

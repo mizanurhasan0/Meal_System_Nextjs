@@ -1,3 +1,4 @@
+
 import { Pencil1Icon } from '@radix-ui/react-icons'
 import React from 'react';
 import GetMonth from '@/utils/Months';
@@ -6,6 +7,10 @@ import HistoryUpdate from "./HistoryUpdate";
 
 export default function DayCard({ data }) {
 
+    const getTotalMeal = (record) => {
+        const num = record?.reduce((sum, { count }) => sum += Number(count), 0)
+        return String(num).padStart(2, '0');
+    }
     return (
         <>
             <div className="relative border border-cgreen rounded-md p-2">
@@ -23,7 +28,9 @@ export default function DayCard({ data }) {
                         ))}
                     </div>
                 </div>
-
+                <div className="border border-cgreen mt-2 text-cgreen text-center capitalize rounded-lg">
+                    total:{getTotalMeal(data.record)}
+                </div>
             </div>
             {/* Modal */}
             <Modal>

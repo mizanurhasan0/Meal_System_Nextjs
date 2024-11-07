@@ -4,7 +4,7 @@ const allowField = new Set(["name", "start", "end", "users_id"]);
 
 const GET = async () => {
     try {
-        const history = await mealsModel.find();
+        const history = await mealsModel.find().sort({ "createdAt": -1 });
         return Response.json({ data: history });
     } catch (error) {
         return Response.json({ message: error })

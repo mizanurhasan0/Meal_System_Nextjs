@@ -16,7 +16,8 @@ export default function MealTbl({ data = {} }) {
                         <td>{d.name}</td>
                         <td>{d.start}</td>
                         <td>{d.end || '-'}</td>
-                        <td>3</td>
+                        <td>{d?.usersid?.length || 0}
+                        </td>
                         <td>
                             <div className="flex space-x-4">
                                 <Button onClick={() => router.push(`/meals/meals_history?id=${d.id}`)}>Edit</Button>
