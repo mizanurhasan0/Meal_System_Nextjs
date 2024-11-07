@@ -3,8 +3,10 @@ import UploadFile from "@/utils/UploadFile";
 
 const allowField = new Set(["name", "email", "password", "avatar"]);
 
-const GET = async () => {
+const GET = async (req) => {
     try {
+        const query = req.nextUrl.searchParams;
+        if (query.get('all')) return Response.json({ data: await userModel.find() })
         const usrs = await userModel.paginate();
         return Response.json({ data: usrs })
     } catch (error) {
