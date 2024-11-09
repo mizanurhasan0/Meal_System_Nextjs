@@ -2,7 +2,7 @@ import { dbConnect } from "@/service/mongo";
 
 export default async function Home() {
   const d = await dbConnect();
-  // console.log({ d });
+  console.log({ d });
   // const onSet = async (e: any) => {
   //   const d = { id: 1, name: "username" }
   //   const fd = new FormData();

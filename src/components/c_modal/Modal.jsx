@@ -1,7 +1,7 @@
 import React from 'react';
 import { Cross1Icon } from '@radix-ui/react-icons';
 
-export default function Modal({ show = false, onClose, children }) {
+export default function Modal({ show = true, onClose = () => { }, children }) {
     return (
         <div className={`modal absolute dark:text-info ${show ? '' : 'scale-0'}`}>
             <div className="fixed z-[999] top-0 bottom-0 left-0 right-0 bg-[#0000008c]">

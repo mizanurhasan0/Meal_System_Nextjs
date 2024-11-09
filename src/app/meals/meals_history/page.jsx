@@ -1,5 +1,5 @@
 'use client';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Lbl_Input from "@/components/c_input/Lbl_Input";
 import Button from '@/components/c_button/Button';
 import UserList from "../components/UserList";
@@ -7,6 +7,7 @@ import { useSearchParams } from 'next/navigation';
 import UsrTitle from '@/components/title/UsrTitle';
 
 export default function page() {
+    const [usrs, setUsrs] = useState([]);
     const searchParams = useSearchParams();
     const query = searchParams.get('id');
 
@@ -20,6 +21,16 @@ export default function page() {
     }
     const onClean = () => console.log("clean");
 
+    const getUsrs = async () => {
+        const d = await fetch("http://localhost:3000/api/user");
+        const { data } = await d.json();
+        setUsrs(data.docs)
+    }
+
+    useEffect(() => {
+        getUsrs();
+    }, [])
+
     return (
         <div>
             <UsrTitle title="Meals Updated" />
@@ -28,7 +39,7 @@ export default function page() {
                     <div className="flex space-x-4">
                         <div className="space-y-2 xl:w-96">
                             <Lbl_Input lbl="Data" name="date" placeholder="Today Date" type="date" />
-                            <UserList />
+                            <UserList usrs={usrs} />
                             <div className="flex items-center space-x-2">
                                 <Button type='submit' className="bg-cgreen text-white" Icon="save">Save</Button>
                                 <Button Icon='cross' onClick={onClean}>Clear</Button>

@@ -1,8 +1,10 @@
 import Button from '@/components/c_button/Button';
 import Lbl_Input from '@/components/c_input/Lbl_Input';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import UserList from '../../components/UserList';
 
-export default function HistoryUpdate() {
+export default function HistoryUpdate({ data }) {
+    const [usrs, setUsrs] = useState([]);
 
     const onSubmit = async (e) => {
         e.preventDefault();
@@ -15,13 +17,32 @@ export default function HistoryUpdate() {
 
     const onClean = () => console.log("clean");
 
+    const getUsrs = async () => {
+        const d = await fetch("http://localhost:3000/api/user");
+        const { data } = await d.json();
+        // const dd = data.docs.map((u) => {
+        //     const a = data?.record.filter((d) => d.userId.id === u.id);
+        //     if (a) return ({ id: u.id, name: u.name, meal: a.count })
+        //     else return ({ id: u.id, name: u.name, meal: 0 });
+        // })
+        console.log(dd);
+        setUsrs(() => {
+            return data.docs;
+        })
+    }
+    // console.log(data);
+    useEffect(() => {
+        getUsrs();
+    }, [data]);
+
     return (
         <div>
             <form onSubmit={onSubmit}>
                 <div className="flex space-x-4">
+                    <input />
                     <div className="space-y-2 xl:w-96">
-                        <Lbl_Input lbl="Data" name="date" placeholder="Today Date" type="date" />
-                        {/* <UserList /> */}
+                        <Lbl_Input lbl="Data" name="date" placeholder="Today Date" type="date" defaultValue={data?.date} />
+                        <UserList usrs={usrs} />
                         <div className="flex items-center space-x-2">
                             <Button type='submit' className="bg-cgreen text-white" Icon="save">Save</Button>
                             <Button Icon='cross' onClick={onClean}>Clear</Button>

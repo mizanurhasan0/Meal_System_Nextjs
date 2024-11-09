@@ -14,7 +14,7 @@ export default async function Users() {
                 <div className="flex items-center text-sm px-2">
                     <h2>Meals:</h2>
                     <div className="flex items-center font-semibold">
-                        <p className="px-2 border-r-2 border-cgreen">All ({data?.totalDocs || 0})</p>
+                        <p className="px-2 border-r-2 border-cgreen">All ({data?.length || 0})</p>
                         <p className="px-2 border-r-2 border-cgreen whitespace-nowrap">Active (7)</p>
                         <p className="px-2  whitespace-nowrap">Inactive (4)</p>
                     </div>

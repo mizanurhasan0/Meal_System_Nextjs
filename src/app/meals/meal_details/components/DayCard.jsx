@@ -1,20 +1,23 @@
 
 import { Pencil1Icon } from '@radix-ui/react-icons'
-import React from 'react';
+import React, { useState } from 'react';
 import GetMonth from '@/utils/Months';
 import Modal from '@/components/c_modal/Modal';
 import HistoryUpdate from "./HistoryUpdate";
 
 export default function DayCard({ data }) {
-
+    const [selectDate, setSelectData] = useState({ show: false, data: {} });
     const getTotalMeal = (record) => {
         const num = record?.reduce((sum, { count }) => sum += Number(count), 0)
         return String(num).padStart(2, '0');
     }
+    const onSelectData = () => {
+        setSelectData(() => ({ show: true, data: data }));
+    }
     return (
         <>
             <div className="relative border border-cgreen rounded-md p-2">
-                <Pencil1Icon className="text-cgreen w-8 h-8 absolute right-3 cursor-pointer" />
+                <Pencil1Icon onClick={onSelectData} className="text-cgreen w-8 h-8 absolute right-3 cursor-pointer" />
                 <h3 className="text-center text-5xl">{GetMonth(data?.date, "day")}</h3>
                 <p className="text-xs font-semibold text-center">/{GetMonth(data?.date)}</p>
 
@@ -33,9 +36,9 @@ export default function DayCard({ data }) {
                 </div>
             </div>
             {/* Modal */}
-            <Modal>
-                <HistoryUpdate />
-            </Modal>
+            {/* <Modal show={selectDate.show} onClose={() => setSelectData({ show: false, data: {} })}>
+                <HistoryUpdate data={selectDate.data} />
+            </Modal> */}
         </>
     )
 }
