@@ -3,7 +3,7 @@ import Lbl_Input from '@/components/c_input/Lbl_Input';
 import React, { useEffect, useState } from 'react';
 import UserList from '../../components/UserList';
 
-export default function HistoryUpdate({ data }) {
+export default function HistoryUpdate({ obj }) {
     const [usrs, setUsrs] = useState([]);
 
     const onSubmit = async (e) => {
@@ -20,20 +20,16 @@ export default function HistoryUpdate({ data }) {
     const getUsrs = async () => {
         const d = await fetch("http://localhost:3000/api/user");
         const { data } = await d.json();
-        // const dd = data.docs.map((u) => {
-        //     const a = data?.record.filter((d) => d.userId.id === u.id);
-        //     if (a) return ({ id: u.id, name: u.name, meal: a.count })
-        //     else return ({ id: u.id, name: u.name, meal: 0 });
-        // })
-        console.log(dd);
-        setUsrs(() => {
-            return data.docs;
-        })
+        const updatedUsrs = data.docs.map((u) => {
+            const find = obj?.record.find((r) => r.userId.id === u.id);
+            return ({ id: u.id, name: u.name, count: find ? find.count : 0 })
+        });
+        setUsrs(updatedUsrs);
     }
-    // console.log(data);
+
     useEffect(() => {
-        getUsrs();
-    }, [data]);
+        if (Object.keys(obj).length !== 0) getUsrs();
+    }, [obj]);
 
     return (
         <div>
@@ -41,7 +37,7 @@ export default function HistoryUpdate({ data }) {
                 <div className="flex space-x-4">
                     <input />
                     <div className="space-y-2 xl:w-96">
-                        <Lbl_Input lbl="Data" name="date" placeholder="Today Date" type="date" defaultValue={data?.date} />
+                        <Lbl_Input lbl="Data" name="date" placeholder="Today Date" type="date" defaultValue={obj?.date} />
                         <UserList usrs={usrs} />
                         <div className="flex items-center space-x-2">
                             <Button type='submit' className="bg-cgreen text-white" Icon="save">Save</Button>

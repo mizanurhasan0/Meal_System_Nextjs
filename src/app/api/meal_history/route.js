@@ -1,12 +1,8 @@
 import mealHistory from "@/models/meals_history";
-import mealsModel from "@/models/meals";
 import userModel from "@/models/user_model";
-
-import { dbConnect } from "@/service/mongo";
 // const allowField = new Set(["name", "email", "password", "avatar"]);
 
 const GET = async (req) => {
-    // await dbConnect();
     try {
         const param = req.nextUrl.searchParams.get("id");
 
@@ -14,7 +10,6 @@ const GET = async (req) => {
             path: 'record.userId',
             model: userModel
         });
-        // const history = await mealHistory.find({ mealId: param });
         return Response.json({ data: history })
     } catch (error) {
         console.log(error);

@@ -36,9 +36,9 @@ export default function DayCard({ data }) {
                 </div>
             </div>
             {/* Modal */}
-            {/* <Modal show={selectDate.show} onClose={() => setSelectData({ show: false, data: {} })}>
-                <HistoryUpdate data={selectDate.data} />
-            </Modal> */}
+            <Modal show={selectDate.show} onClose={() => setSelectData({ show: false, data: {} })}>
+                <HistoryUpdate obj={selectDate.data} />
+            </Modal>
         </>
     )
 }

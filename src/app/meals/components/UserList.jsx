@@ -4,12 +4,11 @@ import React, { useEffect, useState } from 'react';
 
 
 export default function UserList({ usrs = [] }) {
-
     return (
         <div>
             {usrs.map((u) => (
                 <div key={u.id} className=''>
-                    <Lbl_Input lbl={`${u.name}`} name={`usr_${u.id}`} placeholder="meals" />
+                    <Lbl_Input lbl={`${u.name}`} name={`usr_${u.id}`} placeholder="meals" defaultValue={u.count} />
                 </div>
             ))}
         </div>
