@@ -3,14 +3,22 @@ import Lbl_Input from '@/components/c_input/Lbl_Input';
 import React, { useEffect, useState } from 'react';
 import UserList from '../../components/UserList';
 
-export default function HistoryUpdate({ obj }) {
+export default function HistoryUpdate({ obj = {}, setData = () => { }, onClose = () => { } }) {
     const [usrs, setUsrs] = useState([]);
 
     const onSubmit = async (e) => {
         e.preventDefault();
         const fd = new FormData(e.target);
-        fetch("/api/meals", { method: "PUT", body: fd }).then((res) => res.json()).then((data) => {
-            console.log(data);
+        fetch(`/api/meal_history?id=${obj.id}`, { method: "PUT", body: fd }).then((res) => res.json()).then((data) => {
+
+            setData((list) => {
+                const idx = list.findIndex((r) => r.id === obj.id);
+                console.log({ idx });
+                list[idx] = data;
+                console.log({ list });
+                return list;
+            });
+            onClose();
             e.target.reset();
         }).catch((e) => console.log(e));
     };

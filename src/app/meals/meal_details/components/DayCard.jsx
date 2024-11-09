@@ -5,7 +5,7 @@ import GetMonth from '@/utils/Months';
 import Modal from '@/components/c_modal/Modal';
 import HistoryUpdate from "./HistoryUpdate";
 
-export default function DayCard({ data }) {
+export default function DayCard({ data, setData = () => { } }) {
     const [selectDate, setSelectData] = useState({ show: false, data: {} });
     const getTotalMeal = (record) => {
         const num = record?.reduce((sum, { count }) => sum += Number(count), 0)
@@ -14,6 +14,7 @@ export default function DayCard({ data }) {
     const onSelectData = () => {
         setSelectData(() => ({ show: true, data: data }));
     }
+    console.log(data);
     return (
         <>
             <div className="relative border border-cgreen rounded-md p-2">
@@ -37,7 +38,7 @@ export default function DayCard({ data }) {
             </div>
             {/* Modal */}
             <Modal show={selectDate.show} onClose={() => setSelectData({ show: false, data: {} })}>
-                <HistoryUpdate obj={selectDate.data} />
+                <HistoryUpdate obj={selectDate.data} setData={setData} onClose={() => setSelectData({ show: false, data: {} })} />
             </Modal>
         </>
     )

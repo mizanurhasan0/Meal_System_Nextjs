@@ -26,7 +26,7 @@ export default function Meal_Details() {
             <div className="grid grid-cols-4 mx-auto py-5">
                 {data?.map((d) => (
                     <div className="m-1">
-                        <DayCard data={d} />
+                        <DayCard data={d} setData={setData} />
                     </div>
                 ))}
             </div>
