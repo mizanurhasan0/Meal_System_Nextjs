@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react'
 import Lbl_Input from "@/components/c_input/Lbl_Input";
 import { useRouter, useSearchParams } from 'next/navigation';
 import Button from '@/components/c_button/Button';
+import BalHistory from "./components/BalHistory";
+import UsrTitle from '@/components/title/UsrTitle';
 
 export default function Balance() {
     const searchParams = useSearchParams();
@@ -35,24 +37,25 @@ export default function Balance() {
     }, [])
 
     return (
-        <div className="flex justify-center space-x-5">
-            <form onSubmit={onSubmit}>
+        <div>
+            <UsrTitle title="Account Management" />
+            <div className="flex justify-center space-x-5 py-10">
                 <div>
-                    {usrs.map((u) => (
-                        <div key={u.id} className=''>
-                            <Lbl_Input lbl={`${u.name}`} name={`usr_${u.id}`} placeholder="amount..." />
-                        </div>
-                    ))}
-                    <Button type="submit">Save</Button>
+                    <BalHistory account={balance?.account} />
                 </div>
-            </form>
-            <div>
-                {balance?.account?.map((b) => (
-                    <div className="flex items-center space-x-2">
-                        <p>Name:{b.userId.name}</p>
-                        <p>balance:{b.amount}</p>
-                    </div>
-                ))}
+                <div className="border border-cgreen rounded-md">
+                    <h2 className="text-xl text-cgreen underline underline-offset-4 p-2" >Balance Form</h2>
+                    <form onSubmit={onSubmit} className="px-2 pb-5">
+                        <div className="space-y-2">
+                            {usrs.map((u) => (
+                                <div key={u.id} className=''>
+                                    <Lbl_Input lbl={`${u.name}`} name={`usr_${u.id}`} placeholder="amount..." />
+                                </div>
+                            ))}
+                            <Button type="submit" className="bg-cgreen text-white">Save</Button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     )
