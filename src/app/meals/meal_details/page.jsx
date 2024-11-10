@@ -9,7 +9,7 @@ export default function Meal_Details() {
     const searchParams = useSearchParams();
     const id = searchParams.get('id');
 
-    const [data, setData] = useState([]);
+    const [listHistory, setListHistory] = useState([]);
 
     const getDetails = async () => {
         const d = await fetch(`http://localhost:3000/api/meal_history?id=${id}`);
@@ -17,16 +17,15 @@ export default function Meal_Details() {
     }
 
     useEffect(() => {
-        getDetails().then(({ data }) => setData(data));
+        getDetails().then(({ data }) => setListHistory(data));
     }, []);
-
     return (
         <div>
             <UsrTitle title="Meal details" />
             <div className="grid grid-cols-4 mx-auto py-5">
-                {data?.map((d) => (
-                    <div className="m-1">
-                        <DayCard data={d} setData={setData} />
+                {listHistory?.map((d) => (
+                    <div className="m-1" key={d.id}>
+                        <DayCard history={d} setListHistory={setListHistory} />
                     </div>
                 ))}
             </div>
