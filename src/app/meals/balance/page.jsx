@@ -17,7 +17,7 @@ export default function Balance() {
         const res = await fetch(url, { cache: 'no-store' });
         const { data } = await res.json();
         // console.log(data);
-        setter(data?.docs || data);
+        setter(data?.docs || data[0]);
     }
 
     const onSubmit = async (e) => {
@@ -28,21 +28,25 @@ export default function Balance() {
         const acc = fl.filter((d) => d.amount !== "");
         // fd.append("data", { account: acc, mealId: id });
         await fetch('/api/balance', { method: "POST", body: JSON.stringify({ account: acc, mealId: id }) }).then((res) => res.json()).then(({ data }) => {
-            setBalance(data); e.target.reset()
+            // setBalance(data);
+            data.forEach((d) => setBalance((bal) => ({ ...bal, record: bal.record.map((r) => r.userId._id === d.userId ? ({ ...r, amount: d.amount }) : r) })))
+
+            e.target.reset()
         })
 
     }
+    console.log(balance);
     useEffect(() => {
         fetchData("http://localhost:3000/api/user", setUsrs);
         fetchData(`http://localhost:3000/api/meal_history/${id}`, setBalance);
     }, [])
-    console.log(balance)
+
     return (
         <div>
             <UsrTitle title="Account Management" />
             <div className="flex justify-center space-x-5 py-10">
                 <div>
-                    <BalHistory account={balance[0]?.record} />
+                    <BalHistory account={balance?.record} />
                 </div>
                 <div className="border border-cgreen rounded-md">
                     <h2 className="text-xl text-cgreen underline underline-offset-4 p-2" >Balance Form</h2>

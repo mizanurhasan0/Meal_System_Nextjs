@@ -23,18 +23,21 @@ const POST = async (req) => {
         const getBal = await balanceModal.findOne({ mealId: data.mealId });
         if (!getBal) return Response.json({ data: await balanceModal.create(data) })
 
-        let bal;
+        let getData = [];
         data.account.forEach(({ userId, amount }) => {
             const idx = getBal.account.findIndex((a) => a.userId.toString() === userId);
             getBal.account[idx].amount += Number(amount);
+            // console.log(getBal.account[idx]);
+            getData = [getBal.account[idx], ...getData];
             getBal.account[idx].logs = [{ amount: amount, date: new Date().toLocaleDateString(), status: Number(amount) > 0 }, ...getBal.account[idx].logs];
         });
-        bal = await getBal.save();
-        const popData = await bal.populate({
-            path: 'account.userId',
-            model: 'Users'
-        });
-        return Response.json({ data: popData });
+        const bal = await getBal.save();
+        // const popData = await bal.populate({
+        //     path: 'account.userId',
+        //     model: 'Users'
+        // });
+        // console.log(getData);
+        return Response.json({ data: getData });
     } catch (error) {
         return Response.json({ message: error + "Something went wrong!!" })
     }
