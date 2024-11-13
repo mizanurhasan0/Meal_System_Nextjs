@@ -19,8 +19,8 @@ export default function MealTbl({ data = {} }) {
                         <td>{d?.usersid?.length || 0}
                         </td>
                         <td>
-                            <div className="flex space-x-4">
-                                <Button onClick={() => router.push(`/meals/meals_history?id=${d.id}`)}>Edit</Button>
+                            <div className="flex items-center space-x-1 py-2 w-48">
+                                <Button onClick={() => router.push(`/meals/meals_history?id=${d.id}`)}>Add</Button>
                                 <Button onClick={() => router.push(`/meals/meal_details?id=${d.id}`)}>details</Button>
                                 <Button onClick={() => router.push(`/meals/balance?id=${d.id}`)}>balance</Button>
                             </div>

@@ -16,6 +16,7 @@ export default function Balance() {
     const fetchData = async (url, setter) => {
         const res = await fetch(url, { cache: 'no-store' });
         const { data } = await res.json();
+        // console.log(data);
         setter(data?.docs || data);
     }
 
@@ -33,15 +34,15 @@ export default function Balance() {
     }
     useEffect(() => {
         fetchData("http://localhost:3000/api/user", setUsrs);
-        fetchData(`http://localhost:3000/api/balance?id=${id}`, setBalance);
+        fetchData(`http://localhost:3000/api/meal_history/${id}`, setBalance);
     }, [])
-
+    console.log(balance)
     return (
         <div>
             <UsrTitle title="Account Management" />
             <div className="flex justify-center space-x-5 py-10">
                 <div>
-                    <BalHistory account={balance?.account} />
+                    <BalHistory account={balance[0]?.record} />
                 </div>
                 <div className="border border-cgreen rounded-md">
                     <h2 className="text-xl text-cgreen underline underline-offset-4 p-2" >Balance Form</h2>

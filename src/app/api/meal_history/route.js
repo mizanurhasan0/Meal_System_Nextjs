@@ -10,6 +10,7 @@ const GET = async (req) => {
             path: 'record.userId',
             model: userModel
         });
+
         return Response.json({ data: history })
     } catch (error) {
         console.log(error);
