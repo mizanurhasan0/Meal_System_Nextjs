@@ -9,7 +9,7 @@ export default function UsrTbl({ data = {} }) {
             <Table header="usrs">
                 {data.docs.map((d) => (
                     <tr key={d.id}>
-                        <td><Checkbox /></td>
+                        {/* <td><Checkbox /></td> */}
                         <td>
                             <div className="flex items-center justify-center">
                                 <C_Image src={`/images/${d.avatar}`} />

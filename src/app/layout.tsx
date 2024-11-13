@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { dbConnect } from "@/service/mongo"
 import "./globals.css";
-import Link from "next/link";
+import Sidebar from "./Sidebar";
 import Headers from "./headers/Header";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -22,21 +22,7 @@ export default async function RootLayout({
     <html lang="en" >
       <body className={inter.className}>
         <main className="flex min-h-screen bg-gray-900">
-          <div className="fixed xl:relative
-       inset-y-0 flex-wrap items-center justify-between block w-full p-0 my-4 overflow-y-auto antialiased transition-transform duration-200  bg-white border-0 shadow-xl  max-w-64 ease-nav-brand z-990 xl:ml-6 rounded-2xl xl:left-0 -translate-x-full xl:translate-x-0">
-            <div>
-              <h1 className="text-2xl font-semibold">Dashboard</h1>
-              <div>
-                <li>Dashboard</li>
-                <li>
-                  <Link href={"/meals"}>Meals</Link>
-                </li>
-                <li>
-                  <Link href={"/users"}>Users</Link>
-                </li>
-              </div>
-            </div>
-          </div>
+          <Sidebar />
           <div className="relative h-full min-h-screen transition-all duration-200 ease-in-out xl:ml-68 rounded-xl w-full flex flex-col">
             <Headers />
             <div className="flex-shrink flex-1 bg-white h-full mx-6 mb-6 rounded-xl">
