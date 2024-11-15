@@ -19,7 +19,7 @@ export default function MealTbl({ data = {} }) {
                         <td>{d.end || '-'}</td>
                         <td>{d?.usersid?.length || 0}
                         </td>
-                        <td className=' w-20'>
+                        <td>
                             <div className="flex items-center space-x-2 justify-center py-2">
                                 <Button className="hover:bg-cgreen hover:text-white" onClick={() => router.push(`/meals/meals_history?id=${d.id}`)}>
                                     <Pencil2Icon />

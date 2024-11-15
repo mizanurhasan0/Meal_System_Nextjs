@@ -1,8 +1,8 @@
 
 import React from 'react'
-import { PlusIcon, DownloadIcon, FileIcon, Cross1Icon } from "@radix-ui/react-icons";
+import { PlusIcon, DownloadIcon, FileIcon, Cross1Icon, UpdateIcon } from "@radix-ui/react-icons";
 
-const choiceIcon = { "plus": <PlusIcon />, "download": <DownloadIcon />, "save": <FileIcon />, "cross": <Cross1Icon /> }
+const choiceIcon = { "plus": <PlusIcon />, "download": <DownloadIcon />, "save": <FileIcon />, "cross": <Cross1Icon />, "update": <UpdateIcon /> }
 
 export default function Button({ children, type = "button", className = "", Icon = "", ...props }) {
     return (

@@ -30,6 +30,7 @@ export default function UsrFrm() {
             <div className="space-y-2 xl:w-96">
               <Lbl_Input lbl="Name" name="name" placeholder="Type name ..." />
               <Lbl_Input lbl="Email" name="email" placeholder="Type email ..." />
+              <Lbl_Input lbl="Phone" name="phone" placeholder="Type phone ..." />
               <Lbl_Input lbl="Password" name="password" placeholder="Type password ..." />
               <div className="flex items-center space-x-2">
                 <Button type='submit' className="bg-cgreen text-white" Icon="save">Save</Button>

@@ -103,4 +103,28 @@ const GET = async (req, { params }) => {
         return Response.json({ message: error })
     }
 }
-export { GET }
+const POST = async (req, { params }) => {
+    try {
+        const { id } = params;
+        const d = await mealHistory.findOne({ mealId: id }).sort({ createdAt: -1 });
+        const getlastObject = { ...JSON.parse(JSON.stringify(d)) };
+        const startDate = new Date(getlastObject.date);
+        startDate.setDate(startDate.getDate() + 1);
+        const today = new Date();
+        let objData = [];
+        for (let d = new Date(startDate); d < today; d.setDate(d.getDate() + 1)) {
+            let { mealId, record } = getlastObject;
+            let dt = ({ date: new Date(d).toLocaleDateString(), mealId, record });
+            objData.push(dt);
+        }
+
+        const mdl = await mealHistory.insertMany(objData);
+        console.log(mdl);
+        // if (!valid) return Response.json({ error: "Field error" });
+        // const mdl = await mealHistory.create({ date: data.date, record: obj, mealId: param });
+        return Response.json({ data: "mdl" });
+    } catch (error) {
+        return Response.json({ message: error + "Something went wrong!!" })
+    }
+}
+export { GET, POST }

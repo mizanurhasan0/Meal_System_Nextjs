@@ -3,11 +3,10 @@ import UsrTbl from "../components/UsrTbl";
 import UsrAction from "../components/UsrAction";
 import UsrTitle from '@/components/title/UsrTitle';
 
-export default async function Meals() {
+export default async function Users() {
     try {
         const d = await fetch("http://localhost:3000/api/user");
         const { data } = await d.json();
-        // console.log(data);
         return (
             <div>
                 <UsrTitle title="Users Management" />

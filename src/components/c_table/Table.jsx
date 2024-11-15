@@ -10,7 +10,7 @@ export default function Table({ children, header = "usrs", checkBox = true }) {
                 <tr>
                     {/* {checkBox ? <th className="w-10 border py-3"><Checkbox /></th> : ''} */}
                     {TblHeader[header].map((h) => (
-                        <th className="border w-24 max-w-32" key={h}>{h}</th>
+                        <th className="border px-2" key={h}>{h}</th>
                     ))}
                     <th className="border text-center px-1">Action</th>
                 </tr>

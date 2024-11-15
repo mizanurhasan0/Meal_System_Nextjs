@@ -10,6 +10,10 @@ const schema = new Schema({
         required: false,
         type: String
     },
+    phone: {
+        required: false,
+        type: String
+    },
     password: {
         required: false,
         type: String

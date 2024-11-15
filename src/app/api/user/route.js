@@ -1,7 +1,7 @@
 import userModel from "@/models/user_model";
 import UploadFile from "@/utils/UploadFile";
 
-const allowField = new Set(["name", "email", "password", "avatar"]);
+const allowField = new Set(["name", "email", "phone", "password", "avatar"]);
 
 const GET = async (req) => {
     try {
@@ -28,6 +28,7 @@ const POST = async (req) => {
         delete data.file;
         const valid = Object.keys(data).every(k => allowField.has(k));
         if (!valid) return Response.json({ error: "Field error" });
+
         const mdl = await userModel.create(data);
         return Response.json({ data: mdl });
     } catch (error) {

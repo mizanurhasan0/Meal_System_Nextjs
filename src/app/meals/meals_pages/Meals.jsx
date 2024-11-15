@@ -10,7 +10,7 @@ export default async function Users() {
         return (
             <div className="space-y-2">
                 <UsrTitle title="Meals Management" />
-                <MealAction />
+                <MealAction data={data} />
                 <div className="flex items-center text-sm px-2">
                     <h2>Meals:</h2>
                     <div className="flex items-center font-semibold">
