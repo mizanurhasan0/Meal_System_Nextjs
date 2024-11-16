@@ -20,6 +20,7 @@ export default function Meal_Details() {
         const d = await fetch(`http://localhost:3000/api/meal_history/${id}`, { method: "POST" });
         const data = await d.json();
         console.log(data);
+        // setListHistory((prev) => ([...prev, ...data]));
 
     }
     useEffect(() => {

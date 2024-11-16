@@ -1,5 +1,6 @@
 import mealHistory from "@/models/meals_history";
-import { ObjectId } from "mongodb"
+import { ObjectId } from "mongodb";
+import userModel from "@/models/user_model"
 
 const GET = async (req, { params }) => {
     try {
@@ -106,23 +107,36 @@ const GET = async (req, { params }) => {
 const POST = async (req, { params }) => {
     try {
         const { id } = params;
-        const d = await mealHistory.findOne({ mealId: id }).sort({ createdAt: -1 });
-        const getlastObject = { ...JSON.parse(JSON.stringify(d)) };
-        const startDate = new Date(getlastObject.date);
-        startDate.setDate(startDate.getDate() + 1);
-        const today = new Date();
+        const lastEntry = await mealHistory.findOne({ mealId: id }).sort({ createdAt: -1, _id: -1 }).lean();
+        // const getlastObject = { ...JSON.parse(JSON.stringify(d)) };
+        // console.log({ lastEntry })
+        const startDate = new Date(lastEntry.date);
+        // startDate.setDate(startDate.getDate() + 1);
+        const today = new Date().toLocaleDateString();
+        console.log(lastEntry.date == today)
         let objData = [];
-        for (let d = new Date(startDate); d < today; d.setDate(d.getDate() + 1)) {
-            let { mealId, record } = getlastObject;
-            let dt = ({ date: new Date(d).toLocaleDateString(), mealId, record });
-            objData.push(dt);
+        for (let date = new Date(startDate); date < today; date.setDate(date.getDate() + 1)) {
+            console.log(date);
+            const dd = await mealHistory.findOne({ mealId: id, date: new Date(date).toLocaleDateString() })
+            // console.log({ dd });
+            objData.push({
+                date: date.toLocaleDateString(),
+                mealId: lastEntry.mealId,
+                record: lastEntry.record,
+            });
         }
 
-        const mdl = await mealHistory.insertMany(objData);
-        console.log(mdl);
+        // const inserted = await mealHistory.insertMany(objData);
+        // // console.log({ inserted });
+        // const populateHistory = await mealHistory.find({ _id: { $in: inserted.map(doc => doc._id) } })
+        //     .populate({
+        //         path: 'record.userId',
+        //         model: userModel
+        //     });
+
         // if (!valid) return Response.json({ error: "Field error" });
         // const mdl = await mealHistory.create({ date: data.date, record: obj, mealId: param });
-        return Response.json({ data: "mdl" });
+        return Response.json("populateHistory");
     } catch (error) {
         return Response.json({ message: error + "Something went wrong!!" })
     }
