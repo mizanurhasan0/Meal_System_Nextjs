@@ -21,6 +21,7 @@ export default function HistoryUpdate({ obj = {}, onUpdate = () => { } }) {
     useEffect(() => {
         if (Object.keys(obj).length !== 0) getUsrs();
     }, [obj]);
+
     const convertDateFormat = (dateString) => {
         if (!dateString) return new Date().toISOString().split("T")[0];
         const [month, day, year] = dateString.split("/");
