@@ -27,8 +27,9 @@ export default function Balance() {
         const fl = Object.entries(fmValue).map(([key, value]) => ({ userId: key.replace("usr_", ""), amount: value }));
         const acc = fl.filter((d) => d.amount !== "");
         await fetch('/api/balance', { method: "POST", body: JSON.stringify({ account: acc, mealId: id }) }).then((res) => res.json()).then(({ data }) => {
-            data.forEach((d) => setBalance((bal) => ({ ...bal, record: bal.record.map((r) => r.userId._id === d.userId ? ({ ...r, amount: d.amount }) : r) })));
-            e.target.reset()
+            // data.forEach((d) => setBalance((bal) => ({ ...bal, record: bal.record.map((r) => r.userId._id === d.userId ? ({ ...r, amount: d.amount }) : r) })));
+            // e.target.reset()
+            console.log(data);
         })
 
     }

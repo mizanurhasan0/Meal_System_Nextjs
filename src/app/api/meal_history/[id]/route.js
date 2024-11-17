@@ -115,7 +115,6 @@ const POST = async (req, { params }) => {
         let objData = [];
         for (let date = new Date(startDate); date < today; date.setDate(date.getDate() + 1)) {
             const exist = await mealHistory.findOne({ mealId: id, date: new Date(date).toLocaleDateString() })
-            console.log({ exist });
             if (!exist) {
                 objData.push({
                     date: date.toLocaleDateString(),

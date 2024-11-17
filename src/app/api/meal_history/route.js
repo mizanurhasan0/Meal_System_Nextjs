@@ -25,21 +25,20 @@ const PUT = async (req) => {
 
         const reqData = await req.formData();
         const data = await Object.fromEntries(reqData);
-        console.log(Object.entries(data))
         const obj = Object.entries(data)
-            .filter(([key, value]) => (key.startsWith('usr_') && value !== '0'))
+            .filter(([key, value]) => (key.startsWith('usr_')))
             .map(([key, count]) => ({
                 userId: key.replace('usr_', ''),
                 count
             }));
-        getRecord.date = data.date;
+        getRecord.date = new Date(data.date).toLocaleDateString();
         getRecord.record = obj;
         const newRecord = await getRecord.save();
         const populateData = await newRecord.populate({
             path: 'record.userId',
             model: userModel
         })
-        return Response.json("populateData");
+        return Response.json(populateData);
     } catch (error) {
         return Response.json({ message: error + "Something went wrong!!" })
     }

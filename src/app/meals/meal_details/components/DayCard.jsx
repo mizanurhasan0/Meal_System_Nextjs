@@ -41,7 +41,7 @@ export default function DayCard({ history = {}, setListHistory }) {
 
                 <div className="shadow-2xl pt-4">
                     <div className="flex gap-2 flex-wrap justify-center">
-                        {history?.record.map((u, i) => (
+                        {history?.record?.filter((r) => r.count !== 0).map((u, i) => (
                             <div key={i} className="bg-cgreen rounded-lg flex justify-between px-2 shadow-xl text-white space-x-2">
                                 <p className="capitalize">{u?.userId.name}</p>
                                 <p>-{u.count}</p>
