@@ -23,6 +23,7 @@ export default function DayCard({ history = {}, setListHistory }) {
             const fd = new FormData(e.target);
             const res = await fetch(`/api/meal_history?id=${id}`, { method: "PUT", body: fd });
             const data = await res.json();
+            console.log(data);
             setListHistory((list) => list.map((item) => (item.id === id ? data : item)));
             setSelectData({ show: false, data: {} });
             e.target.reset();

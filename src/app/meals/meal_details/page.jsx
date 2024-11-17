@@ -17,10 +17,14 @@ export default function Meal_Details() {
         return await d.json();
     }
     const onAutoUpdate = async () => {
-        const d = await fetch(`http://localhost:3000/api/meal_history/${id}`, { method: "POST" });
-        const data = await d.json();
-        console.log(data);
-        // setListHistory((prev) => ([...prev, ...data]));
+        try {
+            const d = await fetch(`http://localhost:3000/api/meal_history/${id}`, { method: "POST" });
+            const data = await d.json();
+            if (data.error) console.log(data.error);
+            else setListHistory((prev) => ([...prev, ...data]));
+        } catch (error) {
+            console.log({ error });
+        }
 
     }
     useEffect(() => {

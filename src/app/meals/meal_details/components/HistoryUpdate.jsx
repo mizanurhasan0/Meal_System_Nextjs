@@ -6,9 +6,6 @@ import UserList from '../../components/UserList';
 export default function HistoryUpdate({ obj = {}, onUpdate = () => { } }) {
 
     const [usrs, setUsrs] = useState([]);
-
-
-
     const onClean = () => console.log("clean");
 
     const getUsrs = async () => {
@@ -24,14 +21,19 @@ export default function HistoryUpdate({ obj = {}, onUpdate = () => { } }) {
     useEffect(() => {
         if (Object.keys(obj).length !== 0) getUsrs();
     }, [obj]);
+    const convertDateFormat = (dateString) => {
+        if (!dateString) return new Date().toISOString().split("T")[0];
+        const [month, day, year] = dateString.split("/");
+        return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+    };
 
-    return (
+    return Object.keys(obj).length === 0 ? ("") : (
         <div>
             <form onSubmit={(e) => onUpdate(e)}>
                 <div className="flex space-x-4">
                     <input />
                     <div className="space-y-2 xl:w-96">
-                        <Lbl_Input lbl="Data" name="date" placeholder="Today Date" type="date" defaultValue={obj?.date} />
+                        <Lbl_Input lbl="Data" name="date" placeholder="Today Date" type="date" defaultValue={convertDateFormat(obj?.date)} />
                         <UserList usrs={usrs} />
                         <div className="flex items-center space-x-2">
                             <Button type='submit' className="bg-cgreen text-white" Icon="save">Save</Button>

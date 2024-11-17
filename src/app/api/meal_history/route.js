@@ -19,15 +19,15 @@ const GET = async (req) => {
 }
 const PUT = async (req) => {
     try {
-        // req.nextUrl.searchParams;
         const id = req.nextUrl.searchParams.get('id');
         const getRecord = await mealHistory.findOne({ _id: id });
         if (!getRecord) return Response.json({ data: 'record not found!' });
 
         const reqData = await req.formData();
         const data = await Object.fromEntries(reqData);
+        console.log(Object.entries(data))
         const obj = Object.entries(data)
-            .filter(([key]) => key.startsWith('usr_'))
+            .filter(([key, value]) => (key.startsWith('usr_') && value !== '0'))
             .map(([key, count]) => ({
                 userId: key.replace('usr_', ''),
                 count
@@ -39,7 +39,7 @@ const PUT = async (req) => {
             path: 'record.userId',
             model: userModel
         })
-        return Response.json(populateData);
+        return Response.json("populateData");
     } catch (error) {
         return Response.json({ message: error + "Something went wrong!!" })
     }
