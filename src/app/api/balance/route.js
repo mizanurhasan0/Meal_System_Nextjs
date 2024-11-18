@@ -94,7 +94,6 @@ const POST = async (req) => {
 
         // });
 
-        console.log(setData.filter(Boolean));
         return Response.json(setData.filter(Boolean));
     } catch (error) {
         return Response.json({ message: error + "Something went wrong!!" })

@@ -1,6 +1,7 @@
 import { dbConnect } from "@/service/mongo";
+import Home from "./home/Home";
 
-export default async function Home() {
+export default async function page() {
   const d = await dbConnect();
   // const onSet = async (e: any) => {
   //   const d = { id: 1, name: "username" }
@@ -14,7 +15,7 @@ export default async function Home() {
 
   return (
     <div>
-      <h1>Main page</h1>
+      <Home />
     </div>
   );
 }

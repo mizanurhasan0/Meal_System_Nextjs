@@ -4,13 +4,14 @@ import React, { useEffect, useState } from 'react';
 // import Details from './components/Details';
 import DayCard from './components/DayCard';
 import UsrTitle from '@/components/title/UsrTitle';
-import Button from '@/components/c_button/Button';
+import DetailHeader from "./components/DetailHeader";
 
 export default function Meal_Details() {
     const searchParams = useSearchParams();
     const id = searchParams.get('id');
 
     const [listHistory, setListHistory] = useState([]);
+    const [balance, setBalance] = useState([]);
 
     const getDetails = async () => {
         const d = await fetch(`http://localhost:3000/api/meal_history?id=${id}`);
@@ -25,23 +26,22 @@ export default function Meal_Details() {
         } catch (error) {
             console.log({ error });
         }
-
+    }
+    const fetchData = async (url, setter) => {
+        const res = await fetch(url, { cache: 'no-store' });
+        const { data } = await res.json();
+        // console.log(data);
+        setter(data?.docs || data);
     }
     useEffect(() => {
         getDetails().then(({ data }) => setListHistory(data));
+        fetchData(`http://localhost:3000/api/balance?id=${id}`, setBalance);
     }, []);
+
     return (
         <div className="">
             <UsrTitle title="Meal details" />
-            <div className="flex items-center text-sm px-2 pt-4">
-                <h2>Meals:</h2>
-                <div className="flex items-center justify-between w-full font-semibold">
-                    <p className="px-2 ">All ({listHistory?.length || 0})</p>
-                    <Button Icon='update' type='button' onClick={onAutoUpdate}>
-                        Auto generate
-                    </Button>
-                </div>
-            </div>
+            <DetailHeader onAutoUpdate={onAutoUpdate} listHistory={listHistory} balance={balance?.account} />
             <div className="grid grid-cols-4 mx-auto py-5">
                 {listHistory?.map((d) => (
                     <div className="m-1" key={d.id}>
