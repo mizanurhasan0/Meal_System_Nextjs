@@ -17,7 +17,7 @@ export default function Balance() {
         const res = await fetch(url, { cache: 'no-store' });
         const { data } = await res.json();
         // console.log(data);
-        setter(data?.docs || data[0]);
+        setter(data?.docs || data);
     }
 
     const onSubmit = async (e) => {
@@ -27,17 +27,22 @@ export default function Balance() {
         const fl = Object.entries(fmValue).map(([key, value]) => ({ userId: key.replace("usr_", ""), amount: value }));
         const acc = fl.filter((d) => d.amount !== "");
         await fetch('/api/balance', { method: "POST", body: JSON.stringify({ account: acc, mealId: id }) }).then((res) => res.json()).then((data) => {
-            // data.forEach((d) => setBalance((bal) => ({ ...bal, record: bal.record.map((r) => r.userId._id === d.userId ? ({ ...r, amount: d.amount }) : r) })));
-            // e.target.reset();
+            data.forEach((d) => setBalance((bal) => {
+                let prev = { ...bal }
+                const idx = prev.account.findIndex((u) => u.userId.id === d.userId);
+                if (idx !== -1) { prev.account[idx].amount = d.amount; }
+                else { prev.account = [...prev.account, { userId: d.userId, amount: d.amount }]; }
 
-            setBalance(data);
+                return prev;
+            }));
+            e.target.reset();
         })
 
     }
 
     useEffect(() => {
         fetchData("http://localhost:3000/api/user", setUsrs);
-        fetchData(`http://localhost:3000/api/meal_history/${id}`, setBalance);
+        fetchData(`http://localhost:3000/api/balance?id=${id}`, setBalance);
     }, [])
 
     return (
@@ -45,7 +50,7 @@ export default function Balance() {
             <UsrTitle title="Account Management" />
             <div className="flex justify-center space-x-5 py-10">
                 <div>
-                    <BalHistory account={balance?.record} />
+                    <BalHistory account={balance?.account} />
                 </div>
                 <div className="border border-cgreen rounded-md">
                     <h2 className="text-xl text-cgreen underline underline-offset-4 p-2" >Balance Form</h2>

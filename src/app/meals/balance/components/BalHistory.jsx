@@ -16,7 +16,6 @@ export default function BalHistory({ account = [] }) {
                         <tr key={i}>
                             <td className="border border-cgreen p-2 capitalize text-center">{bal.userId.name}</td>
                             <td className="border border-cgreen text-center">{bal.amount}/-</td>
-                            <td className="border border-cgreen text-center">{bal.totalCount}</td>
                             <td className="border border-cgreen ">
                                 <Pencil1Icon className="text-center w-full" />
                             </td>
@@ -27,10 +26,6 @@ export default function BalHistory({ account = [] }) {
             <p className="bg-cgreen text-white px-2 flex justify-between mt-2 rounded-md py-1">
                 <span className="font-semibold ">In Total:</span>
                 <span>{totalAmount || 0}/-</span>
-            </p>
-            <p className="bg-cgreen text-white px-2 flex justify-between mt-2 rounded-md py-1">
-                <span className="font-semibold ">Meal Rate:</span>
-                <span>{mealRate || 0}</span>
             </p>
         </div>
     )
