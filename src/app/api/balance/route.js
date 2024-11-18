@@ -24,30 +24,78 @@ const POST = async (req) => {
     try {
         // const param = req.nextUrl.searchParams.get("id");
         const data = await req.json();
-        const getBal = await balanceModal.findOne({ mealId: data.mealId });
-        if (!getBal) return Response.json({ data: await balanceModal.create(data) })
-        let setData = [];
-        data.account.forEach(async ({ userId, amount }) => {
-            const idx = getBal.account.findIndex((a) => a.userId.toString() === userId);
-            if (idx === -1) {
-                let getUsr = await userModel.findOne({ _id: userId });
-                if (getUsr) {
-                    getBal.account = [...getBal.account, { userId: userId, amount: amount, logs: [] }];
-                    setData = [...setData, { userId: getUsr, amount: amount }];
+        // const getBal = await balanceModal.findOne({ mealId: data.mealId });
+        // if (!getBal) return Response.json({ data: await balanceModal.create(data) })
+        const getBal = await balanceModal.findOneAndUpdate(
+            { mealId: data.mealId },
+            { $setOnInsert: { mealId: data.mealId, account: [] } },
+            { upsert: true, new: true }
+        );
+        const setData = await Promise.all(
+            data.account.map(async ({ userId, amount }) => {
+                const idx = getBal.account.findIndex((a) => a.userId.toString() === userId);
+
+                if (idx === -1) {
+                    const getUsr = await userModel.findById(userId);
+                    if (getUsr) {
+                        getBal.account.push({ userId, amount, logs: [] });
+                        return { userId: getUsr, amount };
+                    }
+                } else {
+                    getBal.account[idx].amount += Number(amount);
+                    getBal.account[idx].logs.unshift({
+                        amount,
+                        date: new Date().toLocaleDateString(),
+                        status: Number(amount) > 0,
+                    });
+                    return { userId, amount: getBal.account[idx].amount };
                 }
-            }
-            else {
-                getBal.account[idx].amount += Number(amount);
-                getBal.account[idx].logs = [{ amount: amount, date: new Date().toLocaleDateString(), status: Number(amount) > 0 }, ...getBal.account[idx].logs];
-                setData = [...setData, { userId: userId, amount: getBal.account[idx].amount }];
+            })
+        );
 
-            }
+        await getBal.save();
+        // let setData = [];
 
-        });
+        // for (let d = 0; d < data.account.length; d++) {
+        //     let { userId, amount } = data.account[d];
+        //     const idx = getBal.account.findIndex((a) => a.userId.toString() === userId);
+        //     if (idx === -1) {
+        //         let getUsr = await userModel.findOne({ _id: userId });
 
-        const bal = await getBal.save();
+        //         if (getUsr) {
+        //             getBal.account = [...getBal.account, { userId: userId, amount: amount, logs: [] }];
+        //             setData = [...setData, { userId: getUsr, amount: amount }];
+        //         }
+        //     }
+        //     else {
+        //         getBal.account[idx].amount += Number(amount);
+        //         getBal.account[idx].logs = [{ amount: amount, date: new Date().toLocaleDateString(), status: Number(amount) > 0 }, ...getBal.account[idx].logs];
+        //         setData = [...setData, { userId: userId, amount: getBal.account[idx].amount }];
 
-        return Response.json(setData);
+        //     }
+        // }
+        // const bal = await getBal.save();
+        // data.account.forEach(async ({ userId, amount }) => {
+        //     const idx = getBal.account.findIndex((a) => a.userId.toString() === userId);
+        //     if (idx === -1) {
+        //         let getUsr = await userModel.findOne({ _id: userId });
+        //         console.log({ getUsr });
+        //         if (getUsr) {
+        //             getBal.account = [...getBal.account, { userId: userId, amount: amount, logs: [] }];
+        //             setData = [...setData, { userId: getUsr, amount: amount }];
+        //         }
+        //     }
+        //     else {
+        //         getBal.account[idx].amount += Number(amount);
+        //         getBal.account[idx].logs = [{ amount: amount, date: new Date().toLocaleDateString(), status: Number(amount) > 0 }, ...getBal.account[idx].logs];
+        //         setData = [...setData, { userId: userId, amount: getBal.account[idx].amount }];
+
+        //     }
+
+        // });
+
+        console.log(setData.filter(Boolean));
+        return Response.json(setData.filter(Boolean));
     } catch (error) {
         return Response.json({ message: error + "Something went wrong!!" })
     }
