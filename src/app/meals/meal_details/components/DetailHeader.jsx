@@ -1,25 +1,26 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Button from '@/components/c_button/Button';
 import Modal from '@/components/c_modal/Modal';
 import Summary from "./Summary";
 
 export default function DetailHeader({ onAutoUpdate = () => { }, listHistory = [], balance = [] }) {
+    const [mdlShow, setMdlShow] = useState(true);
 
     const totalMeals = listHistory?.reduce((sum, prev) => sum += prev.record.reduce((s, c) => s += c.count, 0), 0);
     const totalBazar = balance.reduce((sum, cur) => sum += cur.amount, 0);
 
-    const result = Object.values(
+    const usrHistory = Object.values(
         listHistory.reduce((acc, item) => {
             item.record.forEach(({ userId: { id, name }, count }) => {
                 if (!acc[id]) {
-                    acc[id] = { Id: id, name, totalMeal: 0 };
+                    let bal = balance.find((b) => b.userId.id === id);
+                    acc[id] = { Id: id, name, totalMeal: 0, balance: bal?.amount || 0 };
                 }
                 acc[id].totalMeal += count;
             });
             return acc;
         }, {})
     );
-
     return (
         <>
             <div className="flex items-center text-sm px-2 pt-4">
@@ -32,7 +33,7 @@ export default function DetailHeader({ onAutoUpdate = () => { }, listHistory = [
                         <p className="px-2 ">Meal Rate ({(totalBazar / totalMeals).toFixed(1) || 0})</p>
                     </div>
                     <div className="flex items-center space-x-2">
-                        <Button Icon='update' type='button' >
+                        <Button Icon='details' type='button' onClick={() => setMdlShow(!mdlShow)}>
                             Summary
                         </Button>
                         <Button Icon='update' type='button' onClick={onAutoUpdate}>
@@ -41,8 +42,8 @@ export default function DetailHeader({ onAutoUpdate = () => { }, listHistory = [
                     </div>
                 </div>
             </div>
-            <Modal>
-                <Summary />
+            <Modal show={mdlShow} onClose={() => setMdlShow(false)}>
+                <Summary usrHistory={usrHistory} bazars={totalBazar} meals={totalMeals} />
             </Modal>
         </>
     )
