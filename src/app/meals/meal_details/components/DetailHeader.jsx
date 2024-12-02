@@ -4,7 +4,7 @@ import Modal from '@/components/c_modal/Modal';
 import Summary from "./Summary";
 
 export default function DetailHeader({ onAutoUpdate = () => { }, listHistory = [], balance = [] }) {
-    const [mdlShow, setMdlShow] = useState(true);
+    const [mdlShow, setMdlShow] = useState(false);
 
     const totalMeals = listHistory?.reduce((sum, prev) => sum += prev.record.reduce((s, c) => s += c.count, 0), 0);
     const totalBazar = balance.reduce((sum, cur) => sum += cur.amount, 0);
